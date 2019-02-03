@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../post';
+import { PostsService } from '../posts.service';
 
 @Component({
   selector: 'app-posts',
@@ -7,15 +8,22 @@ import { Post } from '../post';
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit {
-    post: Post = {
-      id: 1,
-      title: 'Super awesome stuff'
-    };
+    posts: Post[];
+    selectedPost: Post;
 
-  constructor() {
+  constructor(private postsService: PostsService) {
   }
 
   ngOnInit() {
+    this.getPosts();
+  }
+
+  getPosts(): void {
+    this.posts = this.postsService.getPosts();
+  }
+
+  onSelect(post: Post): void {
+    this.selectedPost = post;
   }
 
 }
