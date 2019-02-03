@@ -9,6 +9,7 @@ import { PostsService } from '../posts.service';
 })
 export class PostsComponent implements OnInit {
     posts: Post[];
+    todaypost = {};
     selectedPost: Post;
 
   constructor(private postsService: PostsService) {
@@ -20,6 +21,8 @@ export class PostsComponent implements OnInit {
 
   getPosts(): void {
     this.posts = this.postsService.getPosts();
+    this.todaypost = this.postsService.getTodayPosts().subscribe(data => {console.log(data); });
+    console.log(this.todaypost);
   }
 
   onSelect(post: Post): void {
