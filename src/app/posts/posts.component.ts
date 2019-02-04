@@ -17,15 +17,15 @@ export class PostsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPosts();
   }
 
   getPosts() {
-    this.postsService.getTodayPosts().subscribe((data: Post[]) => {
-      console.log(data);
-      this.posts = data;
+    this.postsService.getTodayPosts().subscribe(result => {
+      this.posts = result['posts'];
+      console.log('mes postes:', this.posts);
+    }, errors => {
+      console.log(errors);
     });
-    console.log('mes postes:', this.posts);
   }
 
   onSelect(post: Post): void {

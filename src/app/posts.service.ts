@@ -16,7 +16,7 @@ export class PostsService {
   constructor(private http: HttpClient) { }
 
   public getTodayPosts() {
-    return this.http.get<Observable<Post[]>>(this.productHuntURL + 'posts', {params: this.params});
+    return this.http.get<Post[]>(this.productHuntURL + 'posts', {params: this.params});
   }
 }
 
