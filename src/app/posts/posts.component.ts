@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../post';
 import { PostsService } from '../posts.service';
+import { Observable} from 'rxjs';
 
 @Component({
   selector: 'app-posts',
@@ -8,9 +9,9 @@ import { PostsService } from '../posts.service';
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit {
-    posts: Post[];
     todaypost = {};
     selectedPost: Post;
+    posts: Post[];
 
   constructor(private postsService: PostsService) {
   }
@@ -19,14 +20,20 @@ export class PostsComponent implements OnInit {
     this.getPosts();
   }
 
-  getPosts(): void {
-    this.posts = this.postsService.getPosts();
-    this.todaypost = this.postsService.getTodayPosts().subscribe(data => {console.log(data); });
-    console.log(this.todaypost);
+  getPosts() {
+    this.postsService.getTodayPosts().subscribe((data: Post[]) => {
+      console.log(data);
+      this.posts = data;
+    });
+    console.log('mes postes:', this.posts);
   }
 
   onSelect(post: Post): void {
     this.selectedPost = post;
+  }
+
+  formatData(posts: Post[], data: any[]) {
+    return;
   }
 
 }
