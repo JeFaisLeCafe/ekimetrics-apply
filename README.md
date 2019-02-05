@@ -46,7 +46,7 @@ But I can detail how I would do it :
 * Then, selecting a specific category would trigger a HTTP GET request like `GET /v1/posts/all?search[category]=topic-8`
 * Formatting and displaying the data is the same as usual after!
 
-But it was an interesting experience, I got to learn a lot ! 
+It was an interesting experience, I got to learn a lot ! 
 ## Getting Started
 
 Git clone the repository on your computer.
