@@ -1,3 +1,10 @@
-<p>
-  dashboard works!
-</p>
+<div class="container-fluid dashboard">
+  <h1 class="title text-uppercase">POSTS</h1>
+  <loader *ngIf="loading"></loader>
+  <div class="row" *ngIf="posts && !loading">
+    <div class="col-xs-4" *ngFor="let post of posts">
+      <post [post]="post"></post>
+    </div>
+  </div>
+  <pagination [hidden]="loading" previousText="&lsaquo;" nextText="&rsaquo;" [maxSize]="5" [totalItems]="1000" [(ngModel)]="page" (pageChanged)="changePage($event)"></pagination>
+</div>
