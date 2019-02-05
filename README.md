@@ -39,7 +39,12 @@ Exemple:
 This Project took me a lot more time than I expected. I thought it would be a 10-15h project, but it ended up taking about the double.
 I ran into unexpected difficulties, mainly the limitation of requests from Producthun API, and the usage of d3.js.
 
-If I had more time, I could definitely improve this app: the design is not great, and  I couldn't do some of the optional objectives (like being able to select a category)
+If I had more time, I could definitely improve this app: the design is not great, and  I couldn't do some of the optional objectives (like being able to select a category).
+But I can detail how I would do it :
+* First, we would need a new selector, of categories; it would initalize as `null` (displaying something like "All categories" on the dashboard). It would act as the current behaviour.
+* As we intialize the page, we would need to create the list of categories, retrieving it from the Post object we gather with the initial fetch.
+* Then, selecting a specific category would trigger a HTTP GET request like `GET /v1/posts/all?search[category]=topic-8`
+* Formatting and displaying the data is the same as usual after!
 
 But it was an interesting experience, I got to learn a lot ! 
 ## Getting Started
