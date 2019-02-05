@@ -5,6 +5,7 @@ import { Observable} from 'rxjs';
 import {MyPost} from '../my_posts';
 import * as d3 from 'd3';
 import {DatePipe} from '@angular/common';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-posts',
@@ -27,38 +28,33 @@ export class PostsComponent implements OnInit {
     this.isPageReady = false;
   }
 
-  getLast7DaysPosts() {
-    for (let i = 1; i < 7; i++) {
-      this.postsService.getXDaysAgoPosts(i).subscribe(result => {
-        this.posts = this.posts.concat(result['posts']);
-        this.selectedPost = this.random_items(result, this.NB_POST_PER_DAY);
-        console.log('mes postes:', this.posts);
-        if (i === 6) {
-          this.isPageReady = true;
-        }
-      }, errors => {
-        console.log(errors);
-      });
-    }
-  }
-
-  // ProductHunt APi restrictions : 600 API calls/hour, roughly. So we will select only 5 post / day, to not explode the API limits
-  random_items(arr: any[], items: number) {
-     let res: any[];
-    for (let i = 0; i < items; i++) {
-      res = res.concat(arr[Math.floor(Math.random() * arr.length)]);
-    }
-    return res;
-  }
-
   getPosts() {
     this.postsService.getTodayPosts().subscribe(result => {
       this.posts = result['posts'];
-      this.getLast7DaysPosts();
-      console.log('mes postes:', this.posts);
+      // ProductHunt APi restrictions : 600 API calls/hour, roughly. So we will select only 5 post / day, to not explode the API limits
+      this.selectedPost = _.sampleSize(result['posts'], this.NB_POST_PER_DAY);
+      this.isPageReady = true;
+      console.log('mes 1 postes:', this.selectedPost);
     }, errors => {
       console.log(errors);
     });
+  }
+
+  getPostDetails(post: Post) {
+    console.log('postid', post.id);
+    this.postsService.getPostDetails(post.id).subscribe(
+      res => {
+        this.createGraph(res['post']);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  createGraph(detailedPost: Post) {
+    const formatedData = this.parseComments(detailedPost['comments']);
+    d3.select('this').drawChart(formatedData);
   }
 
   parseComments(comments: any[]) {
@@ -77,20 +73,13 @@ export class PostsComponent implements OnInit {
     console.log('formated ? ', arr);
   }
 
-  getPostDetails(post: Post) {
-    this.postsService.getPostDetails(post.id).subscribe(
-      res => {
-        this.createGraph(res['post']);
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  }
-
-  createGraph(detailedPost: Post) {
-    const formatedData = this.parseComments(detailedPost['comments']);
-    d3.select('this').drawChart(formatedData);
+  getLastXDaysPosts(xDaysAgo: number) {
+    this.postsService.getXDaysAgoPosts(xDaysAgo).subscribe(result => {
+      this.posts = this.posts.concat(result['posts']);
+      console.log('mes postes:', this.posts);
+    }, errors => {
+      console.log(errors);
+    });
   }
 
 }

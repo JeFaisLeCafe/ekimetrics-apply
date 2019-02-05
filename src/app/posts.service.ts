@@ -26,6 +26,7 @@ export class PostsService {
   }
 
   public getPostDetails(postId: number) {
+    console.log(postId.toString());
     return this.http.get<Post[]>(this.productHuntURL + 'posts/' + postId.toString(), {params: this.params});
   }
 }

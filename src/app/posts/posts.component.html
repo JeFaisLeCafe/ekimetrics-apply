@@ -2,11 +2,12 @@
 <ul class="row">
 
   <button class="btn btn-default" (click)="this.getPosts()">Get Started !</button>
-  <div *ngIf ="isPageReady">
+  <div *ngIf="!isPageReady">Page is NOT ready</div>
+  <div *ngIf="isPageReady">
     <ul *ngFor="let post of selectedPost">
       <div class="card col-md-4">
-        <p>{{ post.name}}</p>
-        {{getPostDetails(post)}}
+        <p>{{ post.name }}</p>
+        {{ getPostDetails(post) }}
       </div>
     </ul>
   </div>
