@@ -1,20 +1,29 @@
 .post {
+  transition-property: transform;
+  transition-duration: 0.3s;
+  padding: 20px;
+
   text-decoration: none;
-  color: black;
-  .panel {
-    &-heading {
-      background-color: black;
-      color: white;
-      .media {
+    color: black;
+    .panel {
         &-heading {
-          font-weight: bold;
+            background-color: black;
+            color: white;
+            .media {
+                &-heading {
+                    font-weight: bold;
+                }
+            }
         }
-      }
+        &-footer, &-body {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
     }
-    &-footer, &-body {
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
+  &-hover {
+    background: white;
+    transform: scale(2.1);
+
   }
 }

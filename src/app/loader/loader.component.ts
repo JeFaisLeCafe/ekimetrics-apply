@@ -2,9 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 
 
 @Component({
-  selector: 'loader',
-  templateUrl: `./loader.component.html`,
-  styleUrls: ['./loader.component.scss']
+    selector: 'loader',
+    templateUrl: `./loader.component.html`,
+    styleUrls: ['./loader.component.scss']
 })
 
 /**
@@ -12,8 +12,8 @@ import { Component, OnInit, Input } from '@angular/core';
  * CSS loading Spinner
  */
 export class LoaderComponent implements OnInit {
-  constructor() { }
+    constructor() { }
 
-  ngOnInit () {
-  }
+    ngOnInit () {
+    }
 }

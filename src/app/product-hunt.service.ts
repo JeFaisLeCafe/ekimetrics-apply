@@ -28,7 +28,7 @@ export class ProductHuntService {
   constructor(private http: HttpClient) { }
 
   private productHuntApiUrl = 'https://api.producthunt.com/v1'; //Product Hunt API Url
-  private developer_token = '0cc596d1977552483bdadb48b0e861199b6d258e24be8b67cc39ab126327409e' //Product Hunt Developer Token generate on API Dashboard
+  private developer_token = 'f326775834e677b14d2aa50cf4142c279090ba00fd2f5cc36a7bb1564b6a7e05' //Product Hunt Developer Token generate on API Dashboard
 
   /**
    * Basic Angular Handler
