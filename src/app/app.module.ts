@@ -4,14 +4,22 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { PostsComponent } from './posts/posts.component';
-import { PostDetailsComponent } from './post-details/post-details.component';
+import { PostDetailComponent } from './post-detail/post-detail.component';
 import {DatePipe} from '@angular/common';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoaderComponent } from './loader/loader.component';
+import { PostComponent } from './post/post.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PostsComponent,
-    PostDetailsComponent
+    PostDetailComponent,
+    BarChartComponent,
+    DashboardComponent,
+    LoaderComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,

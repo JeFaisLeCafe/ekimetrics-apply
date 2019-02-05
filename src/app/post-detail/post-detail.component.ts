@@ -3,10 +3,10 @@ import { Post } from '../post';
 
 @Component({
   selector: 'app-post-details',
-  templateUrl: './post-details.component.html',
-  styleUrls: ['./post-details.component.css']
+  templateUrl: './post-detail.component.html',
+  styleUrls: ['./post-detail.component.css']
 })
-export class PostDetailsComponent {
+export class PostDetailComponent {
 
   @Input() post: Post;
   constructor() {}
