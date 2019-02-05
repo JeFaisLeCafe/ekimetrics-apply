@@ -1,27 +1,16 @@
 # EkimetricsApply
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.4.
+Welcome in my apply project! This is a work realized by [Pierre-Etienne Soury](http://pesoury.xyz)
 
-## Development server
+## Objectives
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+The goal is to gather posts and comments from [ProducHunt](https://www.producthunt.com/), and to display the number of comments' evolution on graphs, with d3.js and Angular.
 
-## Code scaffolding
+This is a test of my ability to use Angular, which I was familiar with, and to utilize new skills, since I didn't know d3.js at all.
+It's also a way to make a fun project and give back a - hopefully - working prototype.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Realization
 
-## Build
+### Beginning
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+I had 2 weeks to complete this project. 

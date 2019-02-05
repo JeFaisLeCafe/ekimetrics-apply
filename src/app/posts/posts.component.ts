@@ -16,19 +16,25 @@ export class PostsComponent implements OnInit {
   selectedPost: MyPost;
   formatedPosts: MyPost[];
   posts: Post[];
+  // this will allow us to know when the page is Ready, and start some actions according to it
+  isPageReady: boolean;
 
   constructor(private postsService: PostsService,
               private datePipe: DatePipe) {
   }
 
   ngOnInit() {
+    this.isPageReady = false;
   }
 
   getLast7DaysPosts() {
-    for (let _i = 1; _i < 7; _i++) {
-      this.postsService.getXDaysAgoPosts(_i).subscribe(result => {
+    for (let i = 1; i < 7; i++) {
+      this.postsService.getXDaysAgoPosts(i).subscribe(result => {
         this.posts = this.posts.concat(result['posts']);
         console.log('mes postes:', this.posts);
+        if (i === 6) {
+          this.isPageReady = true;
+        }
       }, errors => {
         console.log(errors);
       });
@@ -47,25 +53,24 @@ export class PostsComponent implements OnInit {
 
   parseComments(comments: any[]) {
     let arr = [];
-    for (let i = 0; i < comments.length; i++) {
-      arr.push(
-        {
-          date: this.datePipe.transform(comments[i]['created_at'], 'mediumDate'),
-          value: +comments[i]
-        });
+    console.log('comments: ', comments);
+    if (comments && comments.length > 0) {
+      for (let i = 0; i < comments.length; i++) {
+        arr.push(
+          {
+            date: this.datePipe.transform(comments[i]['created_at'], 'mediumDate'),
+            value: +comments[i]
+          });
+      }
     }
     return arr;
     console.log('formated ? ', arr);
   }
 
-  onSelect(post: Post): void {
-    this.selectedPost = post;
-  }
-
   getPostDetails(post: Post) {
     this.postsService.getPostDetails(post.id).subscribe(
       res => {
-        this.parseComments(res['post']['comments']);
+        this.createGraph(res['post']);
       },
       error => {
         console.log(error);
@@ -73,8 +78,7 @@ export class PostsComponent implements OnInit {
     );
   }
 
-  createGraph(post: Post) {
-    const detailedPost = this.getPostDetails(post);
+  createGraph(detailedPost: Post) {
     const formatedData = this.parseComments(detailedPost['comments']);
     d3.select('this').drawChart(formatedData);
   }
