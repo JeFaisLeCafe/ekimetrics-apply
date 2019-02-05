@@ -12,8 +12,8 @@ import {DatePipe} from '@angular/common';
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit {
-  todaypost = {};
-  selectedPost: MyPost;
+  NB_POST_PER_DAY = 5;
+  selectedPost: MyPost[];
   formatedPosts: MyPost[];
   posts: Post[];
   // this will allow us to know when the page is Ready, and start some actions according to it
@@ -31,6 +31,7 @@ export class PostsComponent implements OnInit {
     for (let i = 1; i < 7; i++) {
       this.postsService.getXDaysAgoPosts(i).subscribe(result => {
         this.posts = this.posts.concat(result['posts']);
+        this.selectedPost = this.random_items(result, this.NB_POST_PER_DAY);
         console.log('mes postes:', this.posts);
         if (i === 6) {
           this.isPageReady = true;
@@ -39,6 +40,15 @@ export class PostsComponent implements OnInit {
         console.log(errors);
       });
     }
+  }
+
+  // ProductHunt APi restrictions : 600 API calls/hour, roughly. So we will select only 5 post / day, to not explode the API limits
+  random_items(arr: any[], items: number) {
+     let res: any[];
+    for (let i = 0; i < items; i++) {
+      res = res.concat(arr[Math.floor(Math.random() * arr.length)]);
+    }
+    return res;
   }
 
   getPosts() {

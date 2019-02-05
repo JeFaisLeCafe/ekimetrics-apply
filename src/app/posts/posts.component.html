@@ -3,7 +3,7 @@
 
   <button class="btn btn-default" (click)="this.getPosts()">Get Started !</button>
   <div *ngIf ="isPageReady">
-    <ul *ngFor="let post of posts">
+    <ul *ngFor="let post of selectedPost">
       <div class="card col-md-4">
         <p>{{ post.name}}</p>
         {{getPostDetails(post)}}
