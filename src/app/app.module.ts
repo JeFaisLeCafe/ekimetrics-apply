@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { PostsComponent } from './posts/posts.component';
 import { PostDetailsComponent } from './post-details/post-details.component';
+import {DatePipe} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,7 @@ import { PostDetailsComponent } from './post-details/post-details.component';
     BrowserModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
