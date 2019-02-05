@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../post';
-import { PostsService } from '../posts.service';
+import { PostsService } from '../services/posts.service';
 import { Observable} from 'rxjs';
 import {MyPost} from '../my_posts';
 import * as d3 from 'd3';
@@ -33,7 +33,7 @@ export class PostsComponent implements OnInit {
       this.posts = result['posts'];
       // ProductHunt APi restrictions : 600 API calls/hour, roughly. So we will select only 5 post / day, to not explode the API limits
       this.selectedPost = _.sampleSize(result['posts'], this.NB_POST_PER_DAY);
-      this.isPageReady = true;
+      this.isPageReady = this.selectedPost != null;
       console.log('mes 1 postes:', this.selectedPost);
     }, errors => {
       console.log(errors);
@@ -53,30 +53,76 @@ export class PostsComponent implements OnInit {
   }
 
   createGraph(detailedPost: Post) {
-    const formatedData = this.parseComments(detailedPost['comments']);
-    d3.select('this').drawChart(formatedData);
+    const formatedData = this.countCommentsByDate(detailedPost['comments']);
+    d3.select('this').this.drawChart(formatedData);
   }
 
-  parseComments(comments: any[]) {
+  drawChart(formatedData) {
+    const svgWidth = 600, svgHeight = 400;
+    const margin = { top: 20, right: 20, bottom: 30, left: 50 };
+    const width = svgWidth - margin.left - margin.right;
+    const height = svgHeight - margin.top - margin.bottom;
+
+    const x = d3.scaleTime().rangeRound([0, width]);
+    const y = d3.scaleLinear().rangeRound([height, 0]);
+
+    let svg = d3.select('svg')
+      .attr('width', svgWidth)
+      .attr('height', svgHeight);
+
+    let g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    let line = d3.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return y(d.value); });
+    x.domain(d3.extent(formatedData, function(d) { return d.date; }));
+    y.domain(d3.extent(formatedData, function(d) { return d.value; }));
+
+    g.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x))
+      .select(".domain")
+      .remove();
+
+    g.append("g")
+      .call(d3.axisLeft(y))
+      .append("text")
+      .attr("fill", "#000")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("text-anchor", "end")
+      .text("Price ($)");
+  }
+
+  countCommentsByDate(comments: any[]) {
     let arr = [];
     console.log('comments: ', comments);
     if (comments && comments.length > 0) {
       for (let i = 0; i < comments.length; i++) {
-        arr.push(
-          {
-            date: this.datePipe.transform(comments[i]['created_at'], 'mediumDate'),
-            value: +comments[i]
-          });
+        for (let j = 0; j < arr.length; j++) {
+          if (arr[j].date === this.datePipe.transform(comments[i]['created_at'], 'mediumDate')) {
+            arr[j].value += 1;
+          } else {
+            arr.push(
+              {
+                date: this.datePipe.transform(comments[i]['created_at'], 'mediumDate'),
+                value: 1
+              });
+          }
+        }
       }
     }
+    console.log('formated ', arr);
     return arr;
-    console.log('formated ? ', arr);
   }
 
   getLastXDaysPosts(xDaysAgo: number) {
     this.postsService.getXDaysAgoPosts(xDaysAgo).subscribe(result => {
-      this.posts = this.posts.concat(result['posts']);
-      console.log('mes postes:', this.posts);
+      this.posts = result['posts'];
+      // ProductHunt APi restrictions : 600 API calls/hour, roughly. So we will select only 5 post / day, to not explode the API limits
+      this.selectedPost = _.sampleSize(result['posts'], this.NB_POST_PER_DAY);
+      this.isPageReady = this.selectedPost != null;
     }, errors => {
       console.log(errors);
     });
