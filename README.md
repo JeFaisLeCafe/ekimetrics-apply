@@ -1,6 +1,6 @@
 # EkimetricsApply
 
-Welcome in my apply project!
+Welcome to my apply project!
 
 ## Objectives
 

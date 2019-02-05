@@ -104,7 +104,7 @@ export class BarChartComponent implements OnChanges {
             .attr("y", (d) => this.y(d.value)) //Convert comments comment number using y axis function
             .attr("width", this.x.bandwidth()) //Set bar width as x axis bandwidth function
             .attr("height", (d) => this.height - this.y(d.value))
-            .attr("fill", "#B640EC"); //Color bars
+            .attr("fill", "#2E2E6b"); //Color bars
     }
 
 }
