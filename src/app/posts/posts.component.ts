@@ -22,17 +22,6 @@ export class PostsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPosts();
-    const data = [30, 86, 168, 281, 303, 365];
-
-    d3.select(".chart")
-      .selectAll("div")
-      .data(data)
-      .enter()
-      .append("div")
-      .style("width", function(d) { return d + "px"; })
-      .style('background-color', 'blue')
-      .text(function(d) { return d; });
   }
 
   getLast7DaysPosts() {
@@ -44,9 +33,6 @@ export class PostsComponent implements OnInit {
         console.log(errors);
       });
     }
-
-    // this.formatedPosts = this.posts;
-    // console.log('this should be formated', this.formatedPosts);
   }
 
   getPosts() {
@@ -59,7 +45,7 @@ export class PostsComponent implements OnInit {
     });
   }
 
-  parseData(comments: any[]) {
+  parseComments(comments: any[]) {
     let arr = [];
     for (let i = 0; i < comments.length; i++) {
       arr.push(
@@ -79,7 +65,7 @@ export class PostsComponent implements OnInit {
   getPostDetails(post: Post) {
     this.postsService.getPostDetails(post.id).subscribe(
       res => {
-        this.parseData(res['post']['comments']);
+        this.parseComments(res['post']['comments']);
       },
       error => {
         console.log(error);
@@ -87,10 +73,10 @@ export class PostsComponent implements OnInit {
     );
   }
 
-  formatData(posts: Post[], data: any[]) {
-    for (let i = 0; i < posts.length; i++) {
-
-    }
+  createGraph(post: Post) {
+    const detailedPost = this.getPostDetails(post);
+    const formatedData = this.parseComments(detailedPost['comments']);
+    d3.select('this').drawChart(formatedData);
   }
 
 }
